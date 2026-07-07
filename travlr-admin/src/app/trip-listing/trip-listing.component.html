@@ -1,0 +1,63 @@
+<div class="container py-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold mb-0">Travlr Getaways Admin</h2>
+
+    <button class="btn btn-info" [routerLink]="['/add-trip']">
+      + Add Trip
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-muted">
+    Loading trips...
+  </div>
+
+  <div *ngIf="error" class="text-danger">
+    {{ error }}
+  </div>
+
+  <div class="row g-4" *ngIf="!loading && trips.length">
+    <div class="col-12 col-md-6 col-lg-4" *ngFor="let trip of trips">
+      <div class="card h-100 shadow-sm">
+        <img
+          class="card-img-top"
+          [src]="'assets/images/' + trip.image"
+          [alt]="trip.name"
+        >
+
+        <div class="card-body">
+          <h5 class="card-title">{{ trip.name }}</h5>
+
+          <p class="card-text">
+            <strong>{{ trip.resort }}</strong><br>
+            {{ trip.length }} · {{ trip.perPerson }} per person
+          </p>
+
+          <div
+            class="small text-muted"
+            [innerHTML]="trip.description"
+          ></div>
+        </div>
+
+        <div class="card-footer d-flex justify-content-between">
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            [routerLink]="['/edit-trip', trip.code]"
+          >
+            Edit
+          </button>
+
+          <button
+            class="btn btn-outline-danger btn-sm"
+            (click)="onDelete(trip.code)"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p *ngIf="!loading && !trips.length" class="text-muted">
+    No trips found.
+  </p>
+</div>

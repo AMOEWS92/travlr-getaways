@@ -1,0 +1,73 @@
+<div class="container col-md-6">
+  <h2 class="text-center mb-3">Edit Trip</h2>
+
+  <form *ngIf="editForm" [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <div class="mb-2">
+      <label class="form-label">Code</label>
+      <input class="form-control" formControlName="code">
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Name</label>
+      <input class="form-control" formControlName="name">
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Length</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="length"
+        placeholder="Example: 4 nights / 5 days"
+      >
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Start</label>
+      <input
+        type="date"
+        class="form-control"
+        formControlName="start"
+      >
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Resort</label>
+      <input class="form-control" formControlName="resort">
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Per Person</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="perPerson"
+        placeholder="Example: $999.00"
+      >
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Image Filename</label>
+      <input class="form-control" formControlName="image">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea
+        class="form-control"
+        formControlName="description"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-info">
+        Save
+      </button>
+
+      <a routerLink="/" class="btn btn-outline-secondary">
+        Cancel
+      </a>
+    </div>
+  </form>
+</div>

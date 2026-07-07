@@ -1,0 +1,15 @@
+<h1> Travel </h1>
+
+{{#if trips.length}}
+
+<ul id=""trip-list"> {{#each trips}} <li class ="trip-item"> <h2> <a
+href="/travel/{{this.code}}">{{this.name}}</a> </h2>
+
+<p><strong>Resort:</strong> {{this.resort}}</p>
+<p><strong>Length:</strong>{{this.length}}</p>
+<p><strong>Price per person:</strong> {{this.person}}</p>
+<p>{{{this.description}}}</p>
+</li>
+{{/each}}
+
+</ul> {{else}} <p>No trips available at the moment.</p>{{/if}}

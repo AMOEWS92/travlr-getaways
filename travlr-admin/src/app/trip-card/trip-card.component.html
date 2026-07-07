@@ -1,0 +1,17 @@
+<div class="card h-100" *ngIf="trip as t">
+  <div class="card-header fw-bold">{{ t.name }}</div>
+
+  <img
+    class="card-img-top"
+    [src]="'assets/images/' + t.image"
+    [alt]="t.name"
+  />
+
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">{{ t.resort }}</h6>
+    <p class="card-subtitle mt-3 mb-3 text-muted">
+      {{ t.length }} – {{ t.perPerson | currency:'USD':'symbol' }} per person
+    </p>
+    <div class="card-text" [innerHTML]="safeDescription"></div>
+  </div>
+</div>
