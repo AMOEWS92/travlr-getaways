@@ -1,73 +1,330 @@
 <div class="container col-md-6">
-  <h2 class="text-center mb-3">Edit Trip</h2>
+  <div class="container mt-4">
+    <h2>Edit Trip</h2>
 
-  <form *ngIf="editForm" [formGroup]="editForm" (ngSubmit)="onSubmit()">
-    <div class="mb-2">
-      <label class="form-label">Code</label>
-      <input class="form-control" formControlName="code">
+    <div
+      *ngIf="successMessage"
+      class="alert alert-success"
+      role="alert"
+    >
+      {{ successMessage }}
     </div>
 
-    <div class="mb-2">
-      <label class="form-label">Name</label>
-      <input class="form-control" formControlName="name">
+    <div
+      *ngIf="errorMessage"
+      class="alert alert-danger"
+      role="alert"
+    >
+      {{ errorMessage }}
     </div>
 
-    <div class="mb-2">
-      <label class="form-label">Length</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="length"
-        placeholder="Example: 4 nights / 5 days"
-      >
+    <div *ngIf="isLoading">
+      Loading trip data...
     </div>
 
-    <div class="mb-2">
-      <label class="form-label">Start</label>
-      <input
-        type="date"
-        class="form-control"
-        formControlName="start"
-      >
-    </div>
+    <form
+      *ngIf="!isLoading"
+      [formGroup]="editForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="mb-3">
+        <label for="code" class="form-label">Code</label>
 
-    <div class="mb-2">
-      <label class="form-label">Resort</label>
-      <input class="form-control" formControlName="resort">
-    </div>
+        <input
+          id="code"
+          type="text"
+          class="form-control"
+          formControlName="code"
+          [class.is-invalid]="
+            formControls['code'].invalid &&
+            (formControls['code'].touched || submitted)
+          "
+        >
 
-    <div class="mb-2">
-      <label class="form-label">Per Person</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="perPerson"
-        placeholder="Example: $999.00"
-      >
-    </div>
+        <div
+          *ngIf="
+            formControls['code'].invalid &&
+            (formControls['code'].touched || submitted)
+          "
+          class="invalid-feedback"
+        >
+          <span *ngIf="formControls['code'].errors?.['required']">
+            Trip code is required.
+          </span>
 
-    <div class="mb-2">
-      <label class="form-label">Image Filename</label>
-      <input class="form-control" formControlName="image">
-    </div>
+          <span *ngIf="formControls['code'].errors?.['minlength']">
+            Trip code must be at least 2 characters.
+          </span>
 
-    <div class="mb-3">
-      <label class="form-label">Description</label>
-      <textarea
-        class="form-control"
-        formControlName="description"
-        rows="4"
-      ></textarea>
-    </div>
+          <span *ngIf="formControls['code'].errors?.['maxlength']">
+            Trip code cannot exceed 20 characters.
+          </span>
+        </div>
+      </div>
 
-    <div class="d-flex gap-2">
-      <button type="submit" class="btn btn-info">
-        Save
-      </button>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
 
-      <a routerLink="/" class="btn btn-outline-secondary">
-        Cancel
-      </a>
-    </div>
-  </form>
+        <input
+          id="name"
+          type="text"
+          class="form-control"
+          formControlName="name"
+          [class.is-invalid]="
+            formControls['name'].invalid &&
+            (formControls['name'].touched || submitted)
+          "
+        >
+
+        <div
+          *ngIf="
+            formControls['name'].invalid &&
+            (formControls['name'].touched || submitted)
+          "
+          class="invalid-feedback"
+        >
+          <span *ngIf="formControls['name'].errors?.['required']">
+            Trip name is required.
+          </span>
+
+          <span *ngIf="formControls['name'].errors?.['minlength']">
+            Trip name must be at least 2 characters.
+          </span>
+
+          <span *ngIf="formControls['name'].errors?.['maxlength']">
+            Trip name cannot exceed 100 characters.
+          </span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="length" class="form-label">Length</label>
+
+        <input
+          id="length"
+          type="text"
+          class="form-control"
+          formControlName="length"
+          placeholder="Example: 4 nights / 5 days"
+          [class.is-invalid]="
+            formControls['length'].invalid &&
+            (formControls['length'].touched || submitted)
+          "
+        >
+
+        <div
+          *ngIf="
+            formControls['length'].invalid &&
+            (formControls['length'].touched || submitted)
+          "
+          class="invalid-feedback"
+        >
+          <span *ngIf="formControls['length'].errors?.['required']">
+            Trip length is required.
+          </span>
+
+          <span *ngIf="formControls['length'].errors?.['minlength']">
+            Trip length must be at least 2 characters.
+          </span>
+
+          <span *ngIf="formControls['length'].errors?.['maxlength']">
+            Trip length cannot exceed 50 characters.
+          </span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="start" class="form-label">Start</label>
+
+        <input
+          id="start"
+          type="date"
+          class="form-control"
+          formControlName="start"
+          [class.is-invalid]="
+            formControls['start'].invalid &&
+            (formControls['start'].touched || submitted)
+          "
+        >
+
+        <div
+          *ngIf="
+            formControls['start'].invalid &&
+            (formControls['start'].touched || submitted)
+          "
+          class="invalid-feedback"
+        >
+          A start date is required.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="resort" class="form-label">Resort</label>
+
+        <input
+          id="resort"
+          type="text"
+          class="form-control"
+          formControlName="resort"
+          [class.is-invalid]="
+            formControls['resort'].invalid &&
+            (formControls['resort'].touched || submitted)
+          "
+        >
+
+        <div
+          *ngIf="
+            formControls['resort'].invalid &&
+            (formControls['resort'].touched || submitted)
+          "
+          class="invalid-feedback"
+        >
+          <span *ngIf="formControls['resort'].errors?.['required']">
+            Resort is required.
+          </span>
+
+          <span *ngIf="formControls['resort'].errors?.['minlength']">
+            Resort must be at least 2 characters.
+          </span>
+
+          <span *ngIf="formControls['resort'].errors?.['maxlength']">
+            Resort cannot exceed 100 characters.
+          </span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="perPerson" class="form-label">Per Person</label>
+
+        <input
+          id="perPerson"
+          type="text"
+          class="form-control"
+          formControlName="perPerson"
+          placeholder="Example: $999.00"
+          [class.is-invalid]="
+            formControls['perPerson'].invalid &&
+            (formControls['perPerson'].touched || submitted)
+          "
+        >
+
+        <div
+          *ngIf="
+            formControls['perPerson'].invalid &&
+            (formControls['perPerson'].touched || submitted)
+          "
+          class="invalid-feedback"
+        >
+          <span *ngIf="formControls['perPerson'].errors?.['required']">
+            Price per person is required.
+          </span>
+
+          <span
+            *ngIf="
+              formControls['perPerson'].errors?.['invalidCurrency']
+            "
+          >
+            Enter a valid nonnegative price.
+          </span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Image Filename</label>
+
+        <input
+          id="image"
+          type="text"
+          class="form-control"
+          formControlName="image"
+          [class.is-invalid]="
+            formControls['image'].invalid &&
+            (formControls['image'].touched || submitted)
+          "
+        >
+
+        <div
+          *ngIf="
+            formControls['image'].invalid &&
+            (formControls['image'].touched || submitted)
+          "
+          class="invalid-feedback"
+        >
+          <span *ngIf="formControls['image'].errors?.['required']">
+            Image filename is required.
+          </span>
+
+          <span *ngIf="formControls['image'].errors?.['maxlength']">
+            Image filename cannot exceed 255 characters.
+          </span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+
+        <textarea
+          id="description"
+          class="form-control"
+          formControlName="description"
+          rows="4"
+          [class.is-invalid]="
+            formControls['description'].invalid &&
+            (formControls['description'].touched || submitted)
+          "
+        ></textarea>
+
+        <div
+          *ngIf="
+            formControls['description'].invalid &&
+            (formControls['description'].touched || submitted)
+          "
+          class="invalid-feedback"
+        >
+          <span
+            *ngIf="
+              formControls['description'].errors?.['required']
+            "
+          >
+            Description is required.
+          </span>
+
+          <span
+            *ngIf="
+              formControls['description'].errors?.['minlength']
+            "
+          >
+            Description must be at least 10 characters.
+          </span>
+
+          <span
+            *ngIf="
+              formControls['description'].errors?.['maxlength']
+            "
+          >
+            Description cannot exceed 2,000 characters.
+          </span>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button
+          type="submit"
+          class="btn btn-info"
+          [disabled]="isSaving"
+        >
+          {{ isSaving ? 'Saving...' : 'Save' }}
+        </button>
+
+        <a
+          routerLink="/"
+          class="btn btn-outline-secondary"
+          [class.disabled]="isSaving"
+          [attr.aria-disabled]="isSaving"
+        >
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
 </div>

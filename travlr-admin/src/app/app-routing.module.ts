@@ -8,8 +8,8 @@ import { LoginComponent } from './login/login.component';
 const routes: Routes = [
   { path: '', component: TripListingComponent },
   { path: 'add-trip', component: AddTripComponent },
-  { path: 'edit-trip/:tripId', component: EditTripComponent },
-  { path: 'login', component: LoginComponent },   // ✅ ensure this exists
+  { path: 'edit-trip/:tripCode', component: EditTripComponent },
+  { path: 'login', component: LoginComponent }, 
   { path: '**', redirectTo: '' }
 ];
 

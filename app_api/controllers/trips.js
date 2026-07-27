@@ -1,6 +1,6 @@
 const Trip = require('../models/trip');
 
-// Return all trips for the customer-facing travel list.
+// Return all trips.
 const tripsList = async (req, res) => {
   try {
     const trips = await Trip.find()
@@ -17,7 +17,7 @@ const tripsList = async (req, res) => {
   }
 };
 
-// Create a new trip. This route is protected by JWT middleware in routes/index.js.
+// Create a new trip.
 const tripsCreate = async (req, res) => {
   try {
     const trip = await Trip.create(req.body);
@@ -33,11 +33,14 @@ const tripsCreate = async (req, res) => {
   }
 };
 
-// Return one trip using its readable trip code, such as GALE202401.
+// Return one trip using its readable trip code.
 const tripsReadOne = async (req, res) => {
   try {
+
+    console.log('Trip parameters:', req.params);
+    
     const trip = await Trip.findOne({
-      code: req.params.tripid
+      code: req.params.tripCode
     }).lean();
 
     if (!trip) {
@@ -62,7 +65,7 @@ const tripsUpdateOne = async (req, res) => {
   try {
     const trip = await Trip.findOneAndUpdate(
       {
-        code: req.params.tripid
+        code: req.params.tripCode
       },
       req.body,
       {
@@ -92,7 +95,7 @@ const tripsUpdateOne = async (req, res) => {
 const tripsDeleteOne = async (req, res) => {
   try {
     const trip = await Trip.findOneAndDelete({
-      code: req.params.tripid
+      code: req.params.tripCode
     });
 
     if (!trip) {

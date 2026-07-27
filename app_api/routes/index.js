@@ -19,9 +19,9 @@ function authenticateJWT(req, res, next) {
 // Trip routes
 router.get('/trips', ctrlTrips.tripsList);
 router.post('/trips', authenticateJWT, ctrlTrips.tripsCreate);
-router.get('/trips/:tripid', ctrlTrips.tripsReadOne);
-router.put('/trips/:tripid', authenticateJWT, ctrlTrips.tripsUpdateOne);
-router.delete('/trips/:tripid', authenticateJWT, ctrlTrips.tripsDeleteOne);
+router.get('/trips/:tripCode', ctrlTrips.tripsReadOne);
+router.put('/trips/:tripCode', authenticateJWT, ctrlTrips.tripsUpdateOne);
+router.delete('/trips/:tripCode', authenticateJWT, ctrlTrips.tripsDeleteOne);
 
 // Auth routes
 router.post('/register', authController.register);
