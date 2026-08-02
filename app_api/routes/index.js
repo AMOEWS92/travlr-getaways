@@ -2,28 +2,51 @@ const express = require('express');
 const router = express.Router();
 const ctrlTrips = require('../controllers/trips');
 const authController = require('../controllers/authentication');
-const jwt = require('jsonwebtoken'); // enables JWT auth
+const jwt = require('jsonwebtoken');
 
-// Middleware to authenticate JWT
+// Middleware to authenticate JWT.
 function authenticateJWT(req, res, next) {
   const authHeader = req.headers['authorization'];
-  if (!authHeader) return res.sendStatus(401);
+
+  if (!authHeader) {
+    return res.sendStatus(401);
+  }
+
   const token = authHeader.split(' ')[1];
-  jwt.verify(token, process.env.JWT_SECRET || 'mysecret', (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
+
+  jwt.verify(
+    token,
+    process.env.JWT_SECRET || 'mysecret',
+    (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+
+      req.user = user;
+      next();
+    }
+  );
 }
 
-// Trip routes
+// Trip routes.
 router.get('/trips', ctrlTrips.tripsList);
 router.post('/trips', authenticateJWT, ctrlTrips.tripsCreate);
-router.get('/trips/:tripCode', ctrlTrips.tripsReadOne);
-router.put('/trips/:tripCode', authenticateJWT, ctrlTrips.tripsUpdateOne);
-router.delete('/trips/:tripCode', authenticateJWT, ctrlTrips.tripsDeleteOne);
 
-// Auth routes
+router.get('/trips/report', ctrlTrips.tripsReport);
+
+router.get('/trips/:tripCode', ctrlTrips.tripsReadOne);
+router.put(
+  '/trips/:tripCode',
+  authenticateJWT,
+  ctrlTrips.tripsUpdateOne
+);
+router.delete(
+  '/trips/:tripCode',
+  authenticateJWT,
+  ctrlTrips.tripsDeleteOne
+);
+
+// Authentication routes.
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 

@@ -23,6 +23,8 @@ router.get('/', ctrlTrips.tripsList);
 // Create a new trip.
 router.post('/', ctrlTrips.tripsCreate);
 
+router.get('/report', ctrlTrips.tripsReport);
+
 // GET /api/trips/:tripCode
 // Return one trip using its readable trip code.
 router.get('/:tripCode', ctrlTrips.tripsReadOne);
